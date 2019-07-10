@@ -8,7 +8,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN apt-get -qq update && apt-get -yq install git unzip && apt-get clean
 
 # configure php.ini
-COPY prd.php.ini /usr/local/etc/php/conf.d/prd.php.ini
+COPY php/prd.php.ini /usr/local/etc/php/conf.d/prd.php.ini
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
 
 # Type docker-php-ext-install to see available extensions
