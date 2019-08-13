@@ -7,4 +7,5 @@ RUN apk add --no-cache curl python3 && \
     rm -r /usr/lib/python*/ensurepip && \
     pip3 install --no-cache --upgrade pip setuptools wheel && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
-    if [ ! -e /usr/bin/python ]; then ln -sf python3 /usr/bin/python ; fi
+    if [ ! -e /usr/bin/python ]; then ln -sf python3 /usr/bin/python ; fi && \
+    pip install --no-cache awscli
