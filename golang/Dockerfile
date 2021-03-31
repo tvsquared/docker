@@ -1,4 +1,4 @@
-FROM golang:1.12
+FROM golang:1.15
 
 RUN apt-get -qq update && \
     apt-get -qy install \
