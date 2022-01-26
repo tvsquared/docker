@@ -1,0 +1,17 @@
+FROM alpine as build
+
+ARG HADOOP_VERSION=3.3.0
+ENV HADOOP_URL=https://archive.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-${HADOOP_VERSION}.tar.gz
+ENV HADOOP_HOME="/opt/hadoop"
+
+ADD ${HADOOP_URL} /tmp/hadoop.tar.gz
+RUN mkdir -p ${HADOOP_HOME}  && \
+    tar xfz /tmp/hadoop.tar.gz --strip-components=1 -C ${HADOOP_HOME} && \
+    rm -rf /tmp/hadoop.tar.gz \
+        ${HADOOP_HOME}/share/doc/ \
+        ${HADOOP_HOME}/share/hadoop/tools/sources
+
+COPY hadoop-env.sh ${HADOOP_HOME}/etc/hadoop/hadoop-env.sh
+
+FROM alpine
+COPY --from=build $HADOOP_HOME $HADOOP_HOME

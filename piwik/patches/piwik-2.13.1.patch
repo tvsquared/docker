@@ -1,0 +1,86 @@
+diff -Naur old/core/UrlHelper.php new/core/UrlHelper.php
+--- old/core/UrlHelper.php	2015-05-12 12:55:49.000000000 +0100
++++ new/core/UrlHelper.php	2015-08-30 10:23:15.414282664 +0100
+@@ -76,7 +76,7 @@
+         static $countries;
+         if (!isset($countries)) {
+             /** @var RegionDataProvider $regionDataProvider */
+-            $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
++            $regionDataProvider = new \Piwik\Intl\Data\Provider\RegionDataProvider();
+             $countries = implode('|', array_keys($regionDataProvider->getCountryList(true)));
+         }
+ 
+@@ -156,13 +156,14 @@
+             return array();
+         }
+ 
++/*
+         $cache    = Cache::getTransientCache();
+         $cacheKey = 'arrayFromQuery' . $urlQuery;
+ 
+         if ($cache->contains($cacheKey)) {
+             return $cache->fetch($cacheKey);
+         }
+-
++*/
+         if ($urlQuery[0] == '?') {
+             $urlQuery = substr($urlQuery, 1);
+         }
+@@ -209,7 +210,9 @@
+             }
+         }
+ 
++/*
+         $cache->save($cacheKey, $nameToValue);
++*/
+ 
+         return $nameToValue;
+     }
+diff -Naur old/plugins/Referrers/Columns/Base.php new/plugins/Referrers/Columns/Base.php
+--- old/plugins/Referrers/Columns/Base.php	2015-04-17 05:46:30.000000000 +0100
++++ new/plugins/Referrers/Columns/Base.php	2015-08-30 10:23:15.414282664 +0100
+@@ -68,12 +68,13 @@
+      */
+     protected function getReferrerInformation($referrerUrl, $currentUrl, $idSite)
+     {
++/*
+         $cacheKey = $referrerUrl . $currentUrl . $idSite;
+ 
+         if (isset(self::$cachedReferrer[$cacheKey])) {
+             return self::$cachedReferrer[$cacheKey];
+         }
+-
++*/
+         $this->idsite = $idSite;
+ 
+         // default values for the referer_* fields
+@@ -120,7 +121,9 @@
+             'referer_url'     => $this->referrerUrl,
+         );
+ 
++/*
+         self::$cachedReferrer[$cacheKey] = $referrerInformation;
++*/
+ 
+         return $referrerInformation;
+     }
+diff -Naur old/vendor/piwik/device-detector/Parser/Client/Browser/Engine.php new/vendor/piwik/device-detector/Parser/Client/Browser/Engine.php
+--- old/vendor/piwik/device-detector/Parser/Client/Browser/Engine.php	2015-04-04 17:44:30.000000000 +0100
++++ new/vendor/piwik/device-detector/Parser/Client/Browser/Engine.php	2015-08-30 10:24:00.188089866 +0100
+@@ -36,7 +36,8 @@
+         'Presto',
+         'Gecko',
+         'KHTML',
+-        'NetFront'
++        'NetFront',
++        'Edge'
+     );
+ 
+     /**
+@@ -71,4 +72,4 @@
+         // This Exception should never be thrown. If so a defined browser name is missing in $availableEngines
+         throw new \Exception('Detected browser engine was not found in $availableEngines'); // @codeCoverageIgnore
+     }
+-}
+\ No newline at end of file
++}
